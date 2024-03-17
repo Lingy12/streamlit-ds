@@ -62,7 +62,7 @@ if uploaded_file is not None:
     if st.button("Process"):
         output_df, output_file, err = process_excel_file(tmp_file_path, euro_countries)
         st.dataframe(output_df)
-        st.download_button(label="Download Output CSV", data=output_df.to_csv(index=False), file_name=output_file, mime='text/csv')
+        st.download_button(label="Download Output Excel", data=output_df.to_csv(index=False), file_name=output_file, mime='text/csv')
         if err:
             st.dataframe(pd.DataFrame(err, columns=['Country', 'Year', 'Error']))
 
