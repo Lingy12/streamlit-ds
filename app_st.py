@@ -1,4 +1,5 @@
 import streamlit as st
+import io
 import pandas as pd
 from collections import defaultdict
 import os
@@ -63,7 +64,20 @@ if uploaded_file is not None:
         output_df, output_file, err = process_excel_file(tmp_file_path, euro_countries)
         st.header("Output_data")
         st.dataframe(output_df)
-        st.download_button(label="Download Output Excel", data=pd.read_excel(output_file), file_name=output_file)
+        buffer = io.BytesIO()
+    # download button 2 to download dataframe as xlsx
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            # Write each dataframe to a different worksheet.
+            output_df.to_excel(writer, sheet_name='Sheet1', index=False)
+            worksheet = writer.sheets['Sheet1']
+            worksheet.set_column(0,0,40)
+            st.download_button(
+                label="Download data as Excel",
+                data=buffer,
+                file_name=output_file,
+                mime='application/vnd.ms-excel'
+            )
+        # st.download_button(label="Download Output Excel", data=pd.read_excel(output_file), file_name=output_file)
         if err:
             st.header('Entry error log')
             st.dataframe(pd.DataFrame(err, columns=['Country', 'Year', 'Error']))
