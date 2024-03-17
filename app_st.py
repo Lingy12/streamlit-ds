@@ -71,10 +71,11 @@ if uploaded_file is not None:
             output_df.to_excel(writer, sheet_name='Sheet1', index=False)
             worksheet = writer.sheets['Sheet1']
             worksheet.set_column(0,0,40)
+            writer.save()
             st.download_button(
                 label="Download data as Excel",
                 data=buffer,
-                file_name=output_file,
+                file_name='output.xlsx',
                 mime='application/vnd.ms-excel'
             )
         # st.download_button(label="Download Output Excel", data=pd.read_excel(output_file), file_name=output_file)
