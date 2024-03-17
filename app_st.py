@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 import io
 import pandas as pd
 from collections import defaultdict
@@ -72,10 +73,15 @@ if uploaded_file is not None:
             worksheet = writer.sheets['Sheet1']
             worksheet.set_column(0,0,40)
             writer.close()
+            # Get current datetime
+            current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# Create output name
+            output_name = f"output_{current_datetime}.xlsx"
             st.download_button(
                 label="Download data as Excel",
                 data=buffer,
-                file_name='output.xlsx',
+                file_name=output_name,
                 mime='application/vnd.ms-excel'
             )
         # st.download_button(label="Download Output Excel", data=pd.read_excel(output_file), file_name=output_file)
