@@ -71,7 +71,7 @@ if uploaded_file is not None:
             output_df.to_excel(writer, sheet_name='Sheet1', index=False)
             worksheet = writer.sheets['Sheet1']
             worksheet.set_column(0,0,40)
-            writer.save()
+            writer.close()
             st.download_button(
                 label="Download data as Excel",
                 data=buffer,
